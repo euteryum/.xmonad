@@ -6,6 +6,8 @@ import XMonad.Hooks.DynamicLog
 import System.IO      -- for xmobar
 import XMonad.Hooks.ManageDocks        -- avoid xmobar area
 
+import XMonad.Hooks.SetWMName          -- Java Swing apps don't play well with xmonad; change to LG3D
+
 import XMonad.Layout.NoBorders (noBorders, smartBorders)
 import XMonad.Layout.Fullscreen (fullscreenFull, fullscreenSupport)
 import XMonad.Layout.Grid (Grid(..))
@@ -61,26 +63,41 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch a terminal
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
-    
+
     -- volume keys
     --, ((0, xF86XK_AudioMute), spawn "amixer set Master toggle")
     --, ((0, xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ -10%")
     --, ((0, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ +10%")
 
     -- volume keys
-    --, ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master 1+ toggle")
+    , ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master 1+ toggle")
     , ((0, xF86XK_AudioLowerVolume), spawn "amixer -q sset Master 5%-")
     , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q sset Master 5%+")
 
     -- brightness keys
-    , ((0, xF86XK_MonBrightnessDown), spawn "xbacklight -3")
-    , ((0, xF86XK_MonBrightnessUp), spawn "xbacklight +3")
+    , ((0, xF86XK_MonBrightnessDown), spawn "light -U 3")
+    , ((0, xF86XK_MonBrightnessUp), spawn "light -A 3")
 
     -- launch dmenu
     , ((modm,               xK_p     ), spawn "dmenu_run")
 
     -- launch rofi
     , ((modm .|. shiftMask, xK_p     ), spawn "rofi -show drun -config ~/.config/rofi/config.rasi")
+
+    -- launch spectable
+    , ((modm .|. shiftMask, xK_x     ), spawn "spectacle")
+
+    -- launch redshift reset
+    , ((modm .|. shiftMask, xK_s     ), spawn "obs")
+
+    -- change background
+    , ((modm .|. shiftMask, xK_b     ), spawn "feh --bg-scale ~/Pictures/Backgrounds/Abstract_Shapes/Triangular_Mirrors_Purple.jpg")
+
+    -- launch redshift reset
+    , ((modm .|. shiftMask, xK_m     ), spawn "redshift -x")
+
+    -- launch redshift night-mode
+    , ((modm .|. shiftMask, xK_n     ), spawn "redshift -P -O 5300")
 
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
@@ -257,15 +274,18 @@ myLogHook = return ()
 -- per-workspace layout choices.
 --
 -- By default, do nothing.
-myStartupHook = return ()
-
+--myStartupHook = return ()
+myStartupHook = do
+    spawn "source ~/.fehbg"
+    setWMName "LG3D"
 ------------------------------------------------------------------------
 -- Command to launch the bar.
 --myBar = "xmobar"
 myBar = "xmobar ~/.xmonad/.xmobarrc"
 
 -- Custom PP, configure it as you like. It determines what is being written to the bar.
-myPP = xmobarPP { ppCurrent = xmobarColor "#429942" "" . wrap "--" "--" }
+--439143 lime
+myPP = xmobarPP { ppCurrent = xmobarColor "#a1c9c5" "" . wrap "--" "--" }
 
 -- Key binding to toggle the gap for the bar.
 toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)

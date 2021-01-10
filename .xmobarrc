@@ -1,19 +1,22 @@
 Config { 
 
    -- appearance
-     font =         "xft:Bitstream Vera Sans Mono:size=9.5:bold:antialias=true"
-   , bgColor =      "black"
-   , fgColor =      "#646464"
+     font =         "xft:Iosevka:size=11:style=Regular:bold:antialias=true"
+  -- font =         "xft:Bitstream Vera Sans Mono:size=10.5:bold:antialias=true"
+   , bgColor =      "#583177"
+   , fgColor =      "#abbaa9"
+   , alpha =        10
    , position =     Top
-   , border =       BottomB
-   , borderColor =  "#646464"
+   , border =       NoBorder
+   , borderWidth =  0
+   , borderColor =  "#583177"
 
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
    -- Commented out below to remove the following: multicpu, dynnetwork
    --, template = "%StdinReader% | %battery% | %multicpu% | %coretemp% | %memory% | %dynnetwork% }{ %EGLL% | %date% || %kbd% "
-   , template = " %StdinReader%  %battery%  %EGLL% }{ %coretemp% %memory% %date% "
+   , template = " %StdinReader% %battery%   %EGLL% }{  %multicoretemp%   %date% "
 
 
    -- general behavior
@@ -41,7 +44,9 @@ Config {
    , commands = 
 
         -- weather monitor
-        [ Run Weather "EGLL" [ "--template", "<skyCondition> | <fc=#4682B4><tempC></fc>°C | <fc=#4682B4><rh></fc>%"
+        --[ Run Weather "EGLL" [ "--template", "<skyCondition> | <fc=#8DE0E2><tempC></fc>°C | <fc=#8DE0E2><rh></fc>%"
+        --                     ] 36000
+        [ Run Weather "EGLL" [ "--template", "§ <fc=#8DE0E2><tempC></fc>°C"
                              ] 36000
 
         -- StdinReader
@@ -67,42 +72,60 @@ Config {
 
         -- cpu core temperature monitor
         , Run CoreTemp       [ "--template" , "Temp: <core0>°C | <core1>°C"
-                             , "--Low"      , "70"        -- units: °C
-                             , "--High"     , "80"        -- units: °C
-                             , "--low"      , "darkgreen"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkred"
+                             , "--Low"      , "27"        -- units: °C
+                             , "--High"     , "60"        -- units: °C
+                             , "--low"      , "#2EC25F"
+                             , "--normal"   , "#E28D8D"
+                             , "--high"     , "darkorange"
                              ] 50
-                          
+       
+       -- Max of cores' temps
+        , Run MultiCoreTemp  [ "--template" , "©: <max>°C"
+                             , "--Low"      , "27"       -- units: °C
+                             , "--High"     , "60"       -- units: °C
+                             , "--low"      , "#2EC25F"
+                             , "--normal"   , "#E28D8D"
+                             , "--high"     , "darkorange"
+                             --, "--ppad"      , "3"
+                             --, "--width"     , "3"
+                             --, "--maxtwidth" , "5"
+                             , "--"    --percentage scale & more
+                                 --, "--max-icon-pattern" , "<icon=temperature/temperature_%%.xpm/>"
+                                 , "--mintemp" , "20"
+                                 , "--maxtemp" , "100"
+                             ] 50
+
+        --, Run Volume "default" "Master" [] 10
+
         -- memory usage monitor
         , Run Memory         [ "--template" ,"Mem: <usedratio>%"
                              , "--Low"      , "20"        -- units: %
-                             , "--High"     , "90"        -- units: %
-                             , "--low"      , "darkgreen"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkred"
+                             , "--High"     , "81"        -- units: %
+                             , "--low"      , "#2EC25F"
+                             , "--normal"   , "#E28D8D"
+                             , "--high"     , "darkorange"
                              ] 10
 
         -- battery monitor
-        , Run Battery        [ "--template" , "Bat: <acstatus>"
-                             , "--Low"      , "10"        -- units: %
-                             , "--High"     , "80"        -- units: %
-                             , "--low"      , "darkred"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkgreen"
+        , Run Battery        [ "--template" , ": <acstatus>"
+                             , "--Low"      , "13"        -- units: %
+                             , "--High"     , "50"        -- units: %
+                             , "--low"      , "#E28D8D"
+                             , "--normal"   , "#FCB47D"
+                             , "--high"     , "#B9E9CC"
 
                              , "--" -- battery specific options
                                        -- discharging status
                                        , "-o"	, "<left>% (<timeleft>)"
-                                       -- AC "on" status
-                                       , "-O"	, "<fc=#dAA520>Charging</fc>"
+                                       -- AC "on" status  fc=#dee69e yellowish
+                                       , "-O"	, "<fc=#B9E9CC>Charging</fc>"
                                        -- charged status
                                        , "-i"	, "<fc=#006000>Charged</fc>"
                              ] 50
 
-        -- time and date indicator 
+        -- time and date indicator 5c9099
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
-        , Run Date           "<fc=#5c9099>%F (%a) %T</fc>" "date" 10
+        , Run Date           "<fc=#dee69e>%F (%a) %T</fc>" "date" 10
 
         -- keyboard layout indicator
         , Run Kbd            [ ("gb(qwerty)" , "<fc=#00008B>QWERTY</fc>")

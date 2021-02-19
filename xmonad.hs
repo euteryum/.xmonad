@@ -19,7 +19,8 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
 
-myTerminal      = "terminator"
+--myTerminal      = "terminator"
+myTerminal        = "st"
 
 -- modMask lets you specify which modkey you want to use. The default
 -- is mod1Mask ("left alt").  You may also consider using mod3Mask
@@ -64,6 +65,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch a terminal
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
 
+    -- Suspend/PowerOff NOT WORKING!!!
+    --, ((modm .|. shiftMask, xK_e     ), spawn "systemctl suspend")
+
     -- volume keys
     --, ((0, xF86XK_AudioMute), spawn "amixer set Master toggle")
     --, ((0, xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ -10%")
@@ -71,8 +75,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- volume keys
     , ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master 1+ toggle")
-    , ((0, xF86XK_AudioLowerVolume), spawn "amixer -q sset Master 5%-")
-    , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q sset Master 5%+")
+    , ((0, xF86XK_AudioLowerVolume), spawn "amixer -q sset Master 6%-")
+    , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q sset Master 6%+")
 
     -- brightness keys
     , ((0, xF86XK_MonBrightnessDown), spawn "light -U 3")
@@ -121,7 +125,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_k     ), windows W.focusUp  )
 
     -- Move focus to the master window
-    , ((modm,               xK_m     ), windows W.focusMaster  )
+    --, ((modm,               xK_m     ), windows W.focusMaster  )
 
     -- Swap the focused window and the master window
     , ((modm,               xK_Return), windows W.swapMaster)
@@ -285,7 +289,7 @@ myBar = "xmobar ~/.xmonad/.xmobarrc"
 
 -- Custom PP, configure it as you like. It determines what is being written to the bar.
 --439143 lime
-myPP = xmobarPP { ppCurrent = xmobarColor "#a1c9c5" "" . wrap "--" "--" }
+myPP = xmobarPP { ppCurrent = xmobarColor "#95c2bc" "" . wrap "--" "--" }
 
 -- Key binding to toggle the gap for the bar.
 toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)

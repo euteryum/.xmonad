@@ -3,9 +3,9 @@ Config {
    -- appearance
      font =         "xft:Iosevka:size=11:style=Regular:bold:antialias=true"
   -- font =         "xft:Bitstream Vera Sans Mono:size=10.5:bold:antialias=true"
-   , bgColor =      "#583177"
-   , fgColor =      "#abbaa9"
-   , alpha =        10
+   , bgColor =      "#013c3d"
+   , fgColor =      "#609997"
+   , alpha =        255
    , position =     Top
    , border =       NoBorder
    , borderWidth =  0
@@ -16,8 +16,8 @@ Config {
    , alignSep = "}{"  -- separator between left-right alignment
    -- Commented out below to remove the following: multicpu, dynnetwork
    --, template = "%StdinReader% | %battery% | %multicpu% | %coretemp% | %memory% | %dynnetwork% }{ %EGLL% | %date% || %kbd% "
-   , template = " %StdinReader% %battery%   %EGLL% }{  %multicoretemp%   %date% "
-
+   --, template = " %StdinReader% %battery%   %EGLL% }{  %multicoretemp%   %date% "
+   , template = " %StdinReader% %battery% }{  %multicoretemp%   %date% "
 
    -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
@@ -84,7 +84,7 @@ Config {
                              , "--Low"      , "27"       -- units: °C
                              , "--High"     , "60"       -- units: °C
                              , "--low"      , "#2EC25F"
-                             , "--normal"   , "#E28D8D"
+                             , "--normal"   , "#879ead"
                              , "--high"     , "darkorange"
                              --, "--ppad"      , "3"
                              --, "--width"     , "3"
@@ -118,14 +118,14 @@ Config {
                                        -- discharging status
                                        , "-o"	, "<left>% (<timeleft>)"
                                        -- AC "on" status  fc=#dee69e yellowish
-                                       , "-O"	, "<fc=#B9E9CC>Charging</fc>"
+                                       , "-O"	, "<fc=#8d9da6>Charging</fc>"
                                        -- charged status
                                        , "-i"	, "<fc=#006000>Charged</fc>"
                              ] 50
 
         -- time and date indicator 5c9099
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
-        , Run Date           "<fc=#dee69e>%F (%a) %T</fc>" "date" 10
+        , Run Date           "<fc=#95b8bf>%F (%a) %T</fc>" "date" 10
 
         -- keyboard layout indicator
         , Run Kbd            [ ("gb(qwerty)" , "<fc=#00008B>QWERTY</fc>")
